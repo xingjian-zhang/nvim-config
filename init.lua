@@ -17,7 +17,7 @@ vim.opt.hlsearch = true        -- Highlight search results
 vim.opt.incsearch = true       -- Show matches as you type
 
 -- Appearance
-vim.opt.termguicolors = false  -- Use terminal colors
+vim.opt.termguicolors = true   -- Enable 24-bit colors
 vim.opt.background = "dark"    -- Or "light" if you use a light theme
 vim.opt.signcolumn = "yes"     -- Always show sign column
 vim.opt.cursorline = true      -- Highlight current line
@@ -60,47 +60,34 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
+  -- Seamless navigation between Neovim and tmux panes
   {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    opts = {
-      size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
-        end
-      end,
-      open_mapping = [[<C-`>]],
-      direction = "vertical",
+    "christoomey/vim-tmux-navigator",
+    cmd = { "TmuxNavigateLeft", "TmuxNavigateDown", "TmuxNavigateUp", "TmuxNavigateRight" },
+    keys = {
+      { "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Navigate left (Neovim/tmux)" },
+      { "<C-j>", "<cmd>TmuxNavigateDown<cr>", desc = "Navigate down (Neovim/tmux)" },
+      { "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Navigate up (Neovim/tmux)" },
+      { "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Navigate right (Neovim/tmux)" },
     },
   },
   {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "ryanmsnyder/toggleterm-manager.nvim",  -- Terminal picker for Telescope
-    },
-    config = function()
-      require("telescope").load_extension("toggleterm_manager")
-    end,
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Find in files (grep)" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent files" },
-      { "<leader>ft", "<cmd>Telescope toggleterm_manager<cr>", desc = "Find terminals" },
     },
   },
-  -- LSP
+  -- LSP (nvim-lspconfig provides server configs for vim.lsp)
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- Python
-      lspconfig.pyright.setup({})
+      -- Enable pyright using native vim.lsp API (Neovim 0.11+)
+      vim.lsp.enable("pyright")
 
       -- LSP keymaps (only active when LSP attaches to buffer)
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -152,29 +139,29 @@ require("lazy").setup({
     opts = {},
     lazy = false,
   },
+  -- Treesitter (rich syntax highlighting)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+  },
+  -- Atom One Dark colorscheme
+  {
+    "navarasu/onedark.nvim",
+    priority = 1000,  -- Load before other plugins
+    config = function()
+      require("onedark").setup({
+        style = "darker",  -- Options: dark, darker, cool, deep, warm, warmer
+      })
+      require("onedark").load()
+    end,
+  },
 })
-
--- Force terminal colors after plugins load
-vim.opt.termguicolors = false
-vim.cmd.colorscheme("default")
 
 -- Keymaps
 local keymap = vim.keymap.set
 
 -- Clear search highlight with Escape
 keymap("n", "<Esc>", ":nohlsearch<CR>", { silent = true })
-
--- Window navigation with Ctrl + hjkl
-keymap("n", "<C-h>", "<C-w>h")
-keymap("n", "<C-j>", "<C-w>j")
-keymap("n", "<C-k>", "<C-w>k")
-keymap("n", "<C-l>", "<C-w>l")
-
--- Also work from terminal mode
-keymap("t", "<C-h>", "<C-\\><C-n><C-w>h")
-keymap("t", "<C-j>", "<C-\\><C-n><C-w>j")
-keymap("t", "<C-k>", "<C-\\><C-n><C-w>k")
-keymap("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 -- Move lines up/down in visual mode
 keymap("v", "J", ":m '>+1<CR>gv=gv", { silent = true })
@@ -196,22 +183,3 @@ keymap("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 
 -- File explorer (built-in netrw)
 keymap("n", "<leader>e", ":Explore<CR>", { desc = "File explorer" })
-
--- Terminal management (toggleterm) - always show, never hide
-local Terminal = require("toggleterm.terminal").Terminal
-keymap("n", "<leader>t1", function() Terminal:new({ id = 1 }):open() end, { desc = "Terminal 1" })
-keymap("n", "<leader>t2", function() Terminal:new({ id = 2 }):open() end, { desc = "Terminal 2" })
-keymap("n", "<leader>t3", function() Terminal:new({ id = 3 }):open() end, { desc = "Terminal 3" })
-
--- Claude Code terminal
-local claude_term = require("toggleterm.terminal").Terminal:new({
-  cmd = "claude",
-  display_name = "claude",
-  hidden = true,
-})
-keymap("n", "<leader>tc", function()
-  claude_term:toggle()
-end, { desc = "Claude Code" })
-
--- Exit terminal mode with Ctrl+\
-keymap("t", "<C-\\>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })

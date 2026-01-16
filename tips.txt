@@ -12,18 +12,23 @@ Space fb → Switch between open buffers (files loaded in memory)
 Space fr → Open recently edited files, even from previous sessions
 Space e → Open file explorer. Use j/k to navigate, Enter to open, - to go up
 
-# --- WINDOW MANAGEMENT ---
-Ctrl+h/j/k/l → Move between windows (left/down/up/right). Works in terminal too!
+# --- WINDOW/PANE NAVIGATION ---
+Ctrl+h/j/k/l → Move between Neovim splits AND tmux panes seamlessly!
 :vsp filename → Open file in vertical split (side by side)
 :sp filename → Open file in horizontal split (top/bottom)
 :q → Close current window. :qa closes all windows and exits Neovim
 
-# --- TERMINAL MANAGEMENT (toggleterm) ---
-Ctrl+` → Toggle terminal on/off. Terminal keeps running when hidden
-Space t1 → Open/focus terminal #1 (always shows, never hides). Also: Space t2, Space t3
-Space tc → Open Claude Code in a dedicated terminal
-Space ft → Find terminals via Telescope (preview + search all terminals)
-Ctrl+\ → Exit terminal mode to normal mode (lets you scroll/copy terminal output)
+# --- TMUX (terminal management outside Neovim) ---
+# Prefix is Ctrl+a (press first, then the key)
+Ctrl+a | → Split tmux vertically (Neovim left, terminal right)
+Ctrl+a - → Split tmux horizontally (Neovim top, terminal bottom)
+Ctrl+a z → Zoom current pane (fullscreen toggle). Press again to unzoom
+Ctrl+a x → Close current pane
+Ctrl+a c → New tmux window (like a tab)
+Ctrl+a 1/2/3 → Switch to tmux window 1/2/3
+Alt+1/2/3/4/5 → Quick switch to pane 1/2/3/4/5 (no prefix needed!)
+Ctrl+a d → Detach from tmux (everything keeps running). Reattach with: tmux attach
+Ctrl+a r → Reload tmux config
 
 # --- BASIC MOVEMENT ---
 w → Jump to START of next word. Example: "hello world" → cursor jumps h to w
@@ -91,6 +96,13 @@ gr → Go to References. Find all places where this symbol is used
 K → Show hover docs. See function signature, docstring, type info
 Space rn → Rename symbol everywhere. Much safer than search/replace!
 Space ca → Code actions. Quick fixes like "import this module"
+NOTE: LSP requires language servers installed. For Python: npm install -g pyright
+
+# --- TREESITTER (rich syntax highlighting) ---
+Treesitter gives VSCode-like syntax highlighting. Much better than basic regex highlighting!
+:TSInstall python → Install parser for a language. :TSUpdate → Update all parsers
+:TSInstallInfo → See which parsers are installed
+If colors look flat, treesitter may be missing. Add nvim-treesitter plugin to init.lua
 
 # --- AUTOCOMPLETE ---
 Tab → Next suggestion. Shift+Tab → Previous. Enter → Accept
