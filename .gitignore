@@ -1,0 +1,8 @@
+# Plugin data
+plugin/
+lazy-lock.json
+
+# Neovim generated
+*.swp
+*.swo
+undo/

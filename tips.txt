@@ -1,0 +1,116 @@
+# =============================================================================
+# NEOVIM TIPS & KEYBINDINGS - Quick Reference
+# =============================================================================
+# Each line below is a complete tip. Run 'nvim_tip' to see random tips.
+# For detailed explanations, see: https://neovim.io/doc/user/
+# =============================================================================
+
+# --- FILE NAVIGATION ---
+Space ff → Find files by name. Type partial names like "mpy" to match "main.py"
+Space fg → Search text in all files (grep). Requires: brew install ripgrep
+Space fb → Switch between open buffers (files loaded in memory)
+Space fr → Open recently edited files, even from previous sessions
+Space e → Open file explorer. Use j/k to navigate, Enter to open, - to go up
+
+# --- WINDOW MANAGEMENT ---
+Ctrl+h/j/k/l → Move between windows (left/down/up/right). Works in terminal too!
+Ctrl+\ → Toggle terminal on/off. Terminal keeps running when hidden
+:vsp filename → Open file in vertical split (side by side)
+:sp filename → Open file in horizontal split (top/bottom)
+:q → Close current window. :qa closes all windows and exits Neovim
+
+# --- BASIC MOVEMENT ---
+w → Jump to START of next word. Example: "hello world" → cursor jumps h to w
+b → Jump BACK to start of previous word
+e → Jump to END of current word
+0 → Jump to start of line. $ → Jump to end of line
+gg → Go to top of file. G → Go to bottom. 42G → Go to line 42
+Ctrl+d → Scroll down half page. Ctrl+u → Scroll up (cursor stays centered)
+% → Jump to matching bracket. Put cursor on { and press % to find matching }
+f{char} → Find char forward on line. fw jumps to next 'w'. Use ; to repeat
+
+# --- ENTERING INSERT MODE ---
+i → Insert at cursor. a → Insert after cursor (append)
+I → Insert at start of line. A → Insert at end of line
+o → Open new line below and insert. O → Open new line above
+Esc → Return to normal mode from anywhere
+
+# --- EDITING BASICS ---
+u → Undo. Ctrl+r → Redo. Neovim remembers undo history even after restart!
+. → Repeat last change. Delete a word with dw, then press . to delete another
+x → Delete character under cursor
+dd → Delete entire line (also copies it). p → Paste below, P → Paste above
+yy → Yank (copy) entire line. Works with system clipboard in your config
+
+# --- THE VERB + MOTION PATTERN ---
+dw → Delete from cursor to next word. d$ → Delete to end of line
+cw → Change word (delete + enter insert). c$ → Change to end of line
+yw → Yank word. y$ → Yank to end of line
+Verbs: d=delete, c=change, y=yank, v=visual. Combine with any motion!
+
+# --- TEXT OBJECTS (the powerful i and a modifiers) ---
+ciw → Change Inner Word. Works from ANYWHERE in the word, not just the start!
+caw → Change Around Word (includes surrounding whitespace)
+ci" → Change inside quotes. "hello" becomes "" with cursor inside. Quotes stay!
+ca" → Change around quotes. Deletes the quotes too
+ci( → Change inside parentheses. foo(bar) becomes foo()
+ci{ → Change inside braces. Also works: ci), ci}, ci], ci>, cit (HTML tags)
+diw, di", di( → Same pattern but just delete, don't enter insert mode
+yiw, yi" → Same pattern but yank (copy) instead
+
+# --- VISUAL MODE (selecting text) ---
+v → Visual mode (select characters). Move cursor to extend, then d/y/c
+V → Visual LINE mode. Selects entire lines, much easier for code blocks
+Ctrl+v → Visual BLOCK mode. Select a rectangle! Great for multi-line edits
+After selecting: d=delete, y=yank, c=change, >=indent, <=unindent
+
+# --- SEARCH ---
+/text → Search forward. ?text → Search backward. Press Enter to search
+n → Next match. N → Previous match. Esc clears highlighting (your config)
+* → Search for word under cursor. Great for finding all uses of a variable!
+:%s/old/new/g → Replace all "old" with "new" in file. Add c for confirmation
+
+# --- LSP (smart code features in Python, etc.) ---
+gd → Go to Definition. Jump to where function/class/variable is defined
+gr → Go to References. Find all places where this symbol is used
+K → Show hover docs. See function signature, docstring, type info
+Space rn → Rename symbol everywhere. Much safer than search/replace!
+Space ca → Code actions. Quick fixes like "import this module"
+
+# --- AUTOCOMPLETE ---
+Tab → Next suggestion. Shift+Tab → Previous. Enter → Accept
+Ctrl+Space → Manually trigger autocomplete if it doesn't appear
+
+# --- SAVING & QUITTING ---
+Space w → Save file. Space q → Quit window
+:w → Save. :q → Quit. :wq → Save and quit. :q! → Quit without saving
+:qa → Quit all. :wa → Save all. ZZ → Save and quit (quick shortcut)
+
+# --- BUFFERS ---
+:ls → List all open buffers with their numbers
+:b name → Switch to buffer by partial name. :b main → opens main.py
+:bd → Close current buffer (unload from memory)
+Space fb → Fuzzy find buffers (easier than :ls)
+
+# --- MARKS (bookmarks) ---
+ma → Set mark 'a' at cursor. Use any letter a-z
+'a → Jump to line of mark 'a'. `a → Jump to exact position
+:marks → List all marks
+
+# --- MACROS (record and replay) ---
+qa → Start recording macro into register 'a'. Press q again to stop
+@a → Replay macro 'a'. @@ → Replay last macro. 5@a → Replay 5 times
+
+# --- PRO TIPS ---
+TIP: Press Space and wait 300ms to see all leader keybindings (which-key)
+TIP: Press g and wait to see all g-prefixed commands like gd, gr, gg, etc.
+TIP: Learn ONE new command at a time. Use it until natural, then learn another
+TIP: ci" and ciw will change your life. They work from ANYWHERE in the text!
+TIP: Use * to search for word under cursor. Instantly find all occurrences
+TIP: In visual mode, press o to jump cursor to other end of selection
+TIP: Ctrl+o in insert mode → do ONE normal command, then back to insert
+TIP: gv → Re-select last visual selection. Useful if you pressed Esc by accident
+TIP: :earlier 5m → File as it was 5 minutes ago. :later 5m → Go forward
+TIP: Ctrl+a → Increment number under cursor. Ctrl+x → Decrement
+TIP: If doing something repetitive, there's probably a better way. Ask yourself: is there a motion for this?
+TIP: :help {topic} → Help for anything. :help ciw explains ciw. Ctrl+] follows links
