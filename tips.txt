@@ -14,10 +14,16 @@ Space e → Open file explorer. Use j/k to navigate, Enter to open, - to go up
 
 # --- WINDOW MANAGEMENT ---
 Ctrl+h/j/k/l → Move between windows (left/down/up/right). Works in terminal too!
-Ctrl+\ → Toggle terminal on/off. Terminal keeps running when hidden
 :vsp filename → Open file in vertical split (side by side)
 :sp filename → Open file in horizontal split (top/bottom)
 :q → Close current window. :qa closes all windows and exits Neovim
+
+# --- TERMINAL MANAGEMENT (toggleterm) ---
+Ctrl+` → Toggle terminal on/off. Terminal keeps running when hidden
+Space t1 → Toggle terminal #1. Also: Space t2, Space t3
+Space tc → Open Claude Code in a dedicated terminal
+Space ft → Find terminals via Telescope (preview + search all terminals)
+Ctrl+\ → Exit terminal mode to normal mode (lets you scroll/copy terminal output)
 
 # --- BASIC MOVEMENT ---
 w → Jump to START of next word. Example: "hello world" → cursor jumps h to w
@@ -34,6 +40,12 @@ i → Insert at cursor. a → Insert after cursor (append)
 I → Insert at start of line. A → Insert at end of line
 o → Open new line below and insert. O → Open new line above
 Esc → Return to normal mode from anywhere
+
+# --- COMMENTING (Comment.nvim) ---
+gcc → Toggle comment on current line
+gc + motion → Comment a motion (e.g., gcap = comment paragraph, gc3j = comment 3 lines down)
+gc in visual → Comment all selected lines
+gbc → Toggle block comment on current line
 
 # --- EDITING BASICS ---
 u → Undo. Ctrl+r → Redo. Neovim remembers undo history even after restart!
@@ -63,6 +75,9 @@ v → Visual mode (select characters). Move cursor to extend, then d/y/c
 V → Visual LINE mode. Selects entire lines, much easier for code blocks
 Ctrl+v → Visual BLOCK mode. Select a rectangle! Great for multi-line edits
 After selecting: d=delete, y=yank, c=change, >=indent, <=unindent
+J → Move selected lines DOWN (custom binding). Great for reordering code!
+K → Move selected lines UP (custom binding). Pairs with J for quick reorganization
+< and > → Indent/unindent and STAY in visual mode (custom). Repeat without reselecting!
 
 # --- SEARCH ---
 /text → Search forward. ?text → Search backward. Press Enter to search

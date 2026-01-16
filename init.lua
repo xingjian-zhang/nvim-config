@@ -71,19 +71,26 @@ require("lazy").setup({
           return vim.o.columns * 0.4
         end
       end,
-      open_mapping = [[<C-\>]],
+      open_mapping = [[<C-`>]],
       direction = "vertical",
     },
   },
   {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "ryanmsnyder/toggleterm-manager.nvim",  -- Terminal picker for Telescope
+    },
+    config = function()
+      require("telescope").load_extension("toggleterm_manager")
+    end,
     keys = {
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Find in files (grep)" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent files" },
+      { "<leader>ft", "<cmd>Telescope toggleterm_manager<cr>", desc = "Find terminals" },
     },
   },
   -- LSP
@@ -139,6 +146,12 @@ require("lazy").setup({
       delay = 300,  -- show popup after 300ms
     },
   },
+  -- Comment toggling
+  {
+    "numToStr/Comment.nvim",
+    opts = {},
+    lazy = false,
+  },
 })
 
 -- Force terminal colors after plugins load
@@ -183,3 +196,21 @@ keymap("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 
 -- File explorer (built-in netrw)
 keymap("n", "<leader>e", ":Explore<CR>", { desc = "File explorer" })
+
+-- Terminal management (toggleterm)
+keymap("n", "<leader>t1", ":1ToggleTerm<CR>", { desc = "Terminal 1" })
+keymap("n", "<leader>t2", ":2ToggleTerm<CR>", { desc = "Terminal 2" })
+keymap("n", "<leader>t3", ":3ToggleTerm<CR>", { desc = "Terminal 3" })
+
+-- Claude Code terminal
+local claude_term = require("toggleterm.terminal").Terminal:new({
+  cmd = "claude",
+  display_name = "claude",
+  hidden = true,
+})
+keymap("n", "<leader>tc", function()
+  claude_term:toggle()
+end, { desc = "Claude Code" })
+
+-- Exit terminal mode with Ctrl+\
+keymap("t", "<C-\\>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
