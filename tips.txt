@@ -20,7 +20,7 @@ Ctrl+h/j/k/l → Move between windows (left/down/up/right). Works in terminal to
 
 # --- TERMINAL MANAGEMENT (toggleterm) ---
 Ctrl+` → Toggle terminal on/off. Terminal keeps running when hidden
-Space t1 → Toggle terminal #1. Also: Space t2, Space t3
+Space t1 → Open/focus terminal #1 (always shows, never hides). Also: Space t2, Space t3
 Space tc → Open Claude Code in a dedicated terminal
 Space ft → Find terminals via Telescope (preview + search all terminals)
 Ctrl+\ → Exit terminal mode to normal mode (lets you scroll/copy terminal output)

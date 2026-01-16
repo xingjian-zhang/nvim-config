@@ -197,10 +197,11 @@ keymap("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 -- File explorer (built-in netrw)
 keymap("n", "<leader>e", ":Explore<CR>", { desc = "File explorer" })
 
--- Terminal management (toggleterm)
-keymap("n", "<leader>t1", ":1ToggleTerm<CR>", { desc = "Terminal 1" })
-keymap("n", "<leader>t2", ":2ToggleTerm<CR>", { desc = "Terminal 2" })
-keymap("n", "<leader>t3", ":3ToggleTerm<CR>", { desc = "Terminal 3" })
+-- Terminal management (toggleterm) - always show, never hide
+local Terminal = require("toggleterm.terminal").Terminal
+keymap("n", "<leader>t1", function() Terminal:new({ id = 1 }):open() end, { desc = "Terminal 1" })
+keymap("n", "<leader>t2", function() Terminal:new({ id = 2 }):open() end, { desc = "Terminal 2" })
+keymap("n", "<leader>t3", function() Terminal:new({ id = 3 }):open() end, { desc = "Terminal 3" })
 
 -- Claude Code terminal
 local claude_term = require("toggleterm.terminal").Terminal:new({
