@@ -7,6 +7,7 @@
 
 # --- FILE NAVIGATION ---
 Space ff → Find files by name. Type partial names like "mpy" to match "main.py"
+Space fa → Find ALL files including hidden (.env) and gitignored. Use when ff doesn't show it!
 Space fg → Search text in all files (grep). Requires: brew install ripgrep
 Space fb → Switch between open buffers (files loaded in memory)
 Space fr → Open recently edited files, even from previous sessions
@@ -96,7 +97,21 @@ gr → Go to References. Find all places where this symbol is used
 K → Show hover docs. See function signature, docstring, type info
 Space rn → Rename symbol everywhere. Much safer than search/replace!
 Space ca → Code actions. Quick fixes like "import this module"
-NOTE: LSP requires language servers installed. For Python: npm install -g pyright
+Space d → Show diagnostic error/warning in floating window (see full message)
+[d → Jump to previous diagnostic (error/warning)
+]d → Jump to next diagnostic (error/warning)
+Space cf → Format code with LSP (ruff for Python). Fixes style issues automatically!
+NOTE: Two LSPs active for Python: pyright (types) + ruff (linting/formatting)
+NOTE: E/W in the sign column = Error/Warning. Use Space d to see the full message
+
+# --- GIT (gitsigns.nvim) ---
+]c → Jump to next git hunk (changed section)
+[c → Jump to previous git hunk
+Space gp → Preview hunk in floating window. See what changed before deciding
+Space gs → Stage hunk. Add just this change to git staging area
+Space gr → Reset hunk. Discard this change (revert to last commit)
+Space gb → Blame line. See who last modified this line and when
+NOTE: Signs in gutter: │ = added, ~ = changed, _ = deleted
 
 # --- TREESITTER (rich syntax highlighting) ---
 Treesitter gives VSCode-like syntax highlighting. Much better than basic regex highlighting!
@@ -128,6 +143,14 @@ ma → Set mark 'a' at cursor. Use any letter a-z
 qa → Start recording macro into register 'a'. Press q again to stop
 @a → Replay macro 'a'. @@ → Replay last macro. 5@a → Replay 5 times
 
+# --- HARDTIME (break bad habits) ---
+hardtime.nvim blocks inefficient patterns and teaches better Vim motions!
+Spamming jjjjj? Hardtime blocks it → use 5j or { instead
+Spamming hhhhh? Hardtime blocks it → use w, b, f, or 0 instead
+:Hardtime report → See your most common bad habits with suggested fixes
+:Hardtime toggle → Turn hints on/off temporarily if they're annoying
+TIP: When hardtime blocks you, pause and think: what's the better motion?
+
 # --- PRO TIPS ---
 TIP: Press Space and wait 300ms to see all leader keybindings (which-key)
 TIP: Press g and wait to see all g-prefixed commands like gd, gr, gg, etc.
@@ -141,3 +164,40 @@ TIP: :earlier 5m → File as it was 5 minutes ago. :later 5m → Go forward
 TIP: Ctrl+a → Increment number under cursor. Ctrl+x → Decrement
 TIP: If doing something repetitive, there's probably a better way. Ask yourself: is there a motion for this?
 TIP: :help {topic} → Help for anything. :help ciw explains ciw. Ctrl+] follows links
+
+# --- LATEX (VimTeX) ---
+Space ll → Compile LaTeX (single run). Compiles to PDF using latexmk
+Space lv → View PDF in Skim. Also does forward search (jumps to cursor location)
+Space lt → Toggle Table of Contents. Navigate document structure
+Space le → Show compilation errors in quickfix window
+Space lc → Clean auxiliary files (.aux, .log, etc.)
+Space ls → Stop compilation if running
+:VimtexInfo → Show VimTeX status and compiler info
+Cmd+Shift+Click in Skim → Inverse search: jump from PDF back to LaTeX source!
+NOTE: Soft wrap, spell check, and j/k for wrapped lines auto-enabled for .tex files
+NOTE: texlab LSP provides completions for commands, references, citations
+
+# --- LATEX TEXT OBJECTS (VimTeX) ---
+cse → Change Surrounding Environment. \begin{itemize}...\end{itemize} → change type
+dse → Delete surrounding environment (keeps content)
+csc → Change surrounding command. \textbf{word} → change \textbf to something else
+dsc → Delete surrounding command (keeps content)
+tse → Toggle starred environment. equation ↔ equation*
+]] → Jump to next section/chapter. [[ → Jump to previous
+]m → Jump to next environment. [m → Jump to previous environment
+% → Jump between matching \begin and \end
+cie → Change inside environment (content only)
+ae → Visual select around environment (including \begin/\end)
+ie → Visual select inside environment (content only)
+NOTE: These work like standard text objects: die, yae, vae, etc.
+
+# --- MARKDOWN (render-markdown.nvim) ---
+Space mr → Toggle markdown rendering. Shows headers, code blocks, checkboxes nicely
+NOTE: Soft wrap, spell check, and j/k for wrapped lines auto-enabled for .md files
+NOTE: Rendering is automatic when opening .md files. Toggle off for raw editing
+
+# --- APPEARANCE (auto-dark-mode.nvim) ---
+Theme auto-switches with macOS system appearance (System Settings → Appearance)
+Dark mode → One Dark (darker style)
+Light mode → Light Owl
+NOTE: Ghostty terminal also auto-switches (dark: Atom One Dark, light: Light Owl)
